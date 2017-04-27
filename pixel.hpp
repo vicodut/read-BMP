@@ -33,13 +33,14 @@ public:
   } infoHeader;
 	struct pixel// Its RGB values default pixels wil be black
 	{
-		char red = 0;
-		char green = 0;
 		char blue = 0;
+		char green = 0;
+		char red = 0;
 	};
 	//      Initialisation du tableau qui viens recuperer les pixels
   vector<pixel> pixelTab;
 	picture(const char* filename, const char* filenameOut);
+  void addBorder(int size = 0, char r = 0, char b = 0, char g = 0);
 	void write(void);
 };
 

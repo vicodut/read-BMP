@@ -53,9 +53,36 @@ void picture::write(void)
     file.close();
 }
 
+void picture::addBorder(int size, char r, char b, char g)
+{
+    int i = 0, j = 0;
+    for (i = 0; i < infoHeader.img_Width * infoHeader.img_Height; i++)
+    {
+        if(i < (512 * size) || i > infoHeader.img_Width * infoHeader.img_Height - (512 * size))
+        {
+            pixelTab[i].blue = b;
+            pixelTab[i].red = r;
+            pixelTab[i].green = g;
+        }
+        if (i % 512 == 0 && i <= infoHeader.img_Width * infoHeader.img_Height - (512 * size) && i >= (512 * size))
+        {
+            for (j = 0; j < size; j++)
+            {
+                pixelTab[i - j].blue = b;
+                pixelTab[i - j].red = r;
+                pixelTab[i - j].green = g;
+                pixelTab[i + j].blue = b;
+                pixelTab[i + j].red = r;
+                pixelTab[i + j].green = g;
+            }
+        }
+    }
+}
+
 int main()
 {
     picture Lena("lenaColor.bmp", "lenaOut.bmp");
+    Lena.addBorder(30, 0xff, 90, 90);
     Lena.write();
     return 0;
 }
