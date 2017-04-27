@@ -8,6 +8,8 @@ using namespace std;
 class picture //A Picture is a collection of pixels.
 {
 public:
+  const char *fileIn;
+  const char *fileOut;
 	struct // Its RGB values default pixels wil be black
 	{
     unsigned char magicNumber[2]; //define the format type.
@@ -17,7 +19,7 @@ public:
 	}fileHeader ;
   struct
   {
-    int   info_Size;
+    int   info_ize;
     int   img_Width;
     int   img_Height;
     short biPlanes;//Number of color planes
@@ -35,8 +37,10 @@ public:
 		char green = 0;
 		char blue = 0;
 	};
+	//      Initialisation du tableau qui viens recuperer les pixels
+  vector<pixel> pixelTab;
 	picture(const char* filename, const char* filenameOut);
-	~picture();
+	void write(void);
 };
 
 
