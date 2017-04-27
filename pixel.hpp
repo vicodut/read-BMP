@@ -1,4 +1,7 @@
 #include <iostream>
+#include <vector>
+#include <fstream>
+
 #pragma pack( 1)
 using namespace std;
 
@@ -26,13 +29,13 @@ public:
     int   color_Depth;
     int   biClrImportant;//Number of important colors
   } infoHeader;
-	struct // Its RGB values default pixels wil be black
+	struct pixel// Its RGB values default pixels wil be black
 	{
-		int red = 0;
-		int green = 0;
-		int blue = 0;
-	}rgb;
-	picture(const char* filename);
+		char red = 0;
+		char green = 0;
+		char blue = 0;
+	};
+	picture(const char* filename, const char* filenameOut);
 	~picture();
 };
 
