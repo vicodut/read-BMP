@@ -81,33 +81,52 @@ void picture::addBorder(int size, char r, char b, char g)
 
 void picture::mozaik(int size)
 {
-    int i = 0, j = 0, k = 0;
+    int i = 0, j = 0, x = 0, y = 0;
     int red;
     int blue;
     int green; 
-    for (i = 0; i < infoHeader.img_Width * infoHeader.img_Height; i++)
+    for (i = 0; i < infoHeader.img_Height; i += size)
     {
-        red += pixelTab[i].red;
-        blue += pixelTab[i].blue;
-        green += pixelTab[i].green;
-        j++;
-        if (j == size)
+       for(j = 0; j < infoHeader.img_Width; j += size)
         {
-            red = red / size;
-            blue = blue / size;
-            green = green / size;
-            for (k = i - size; k <= i; k++)
+          for(y = 0; y < size; y++)
+          {
+            for(x = 0; x < size; x++)
             {
-                pixelTab[k].red = red;
-                pixelTab[k].blue = blue;
-                pixelTab[k].green = green;
+              int index = (i*infoHeader.img_Height)+(j + x)+(y * infoHeader.img_Width);
+              if (index < infoHeader.img_Width * infoHeader.img_Height)
+              {
+              red += pixelTab[index].red;
+              blue += pixelTab[index].blue;
+              green += pixelTab[index].green;
+              }
             }
-            j = 0;
-            red = 0; 
-            blue = 0; 
-            green = 0;
+          }
+
+//        On recupère la moyenne de la zone de pixel
+          red = red / (size * size);
+          green = green / (size * size);
+          blue = blue / (size * size);
+
+//        On Re-ecrit le tableau avec la moyenne de chaque zone 
+          for(y = 0; y < size; y++)
+          {
+            for(x = 0; x < size; x++)
+            {
+              int index = (i*infoHeader.img_Width)+(j + x)+(y * infoHeader.img_Width);
+              if (index < infoHeader.img_Width * infoHeader.img_Height)
+              {
+              pixelTab[index].red = red;
+              pixelTab[index].blue = blue;
+              pixelTab[index].green = green;
+              }
+            }
+          }
+//        On re-initialize les valeurs des pixel de zone
+          red = 0;
+          blue = 0;
+          green = 0;
         }
-        
     }
 }
 
@@ -115,7 +134,10 @@ int main()
 {
     picture Lena("lenaColor.bmp", "lenaOut.bmp");
 //    Lena.addBorder(30, 0xff, 90, 90);
-    Lena.mozaik(4);
+    cout << "Mozaik: ";
+    int size;
+    cin >> size;
+    Lena.mozaik(size);
     Lena.write();
     return 0;
 }

@@ -33,9 +33,9 @@ public:
   } infoHeader;
 	struct pixel// Its RGB values default pixels wil be black
 	{
-		char blue = 0;
-		char green = 0;
-		char red = 0;
+		unsigned char blue = 0;
+		unsigned char green = 0;
+		unsigned char red = 0;
 	};
 	//      Initialisation du tableau qui viens recuperer les pixels
   vector<pixel> pixelTab;
