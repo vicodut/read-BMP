@@ -79,10 +79,46 @@ void picture::addBorder(int size, char r, char b, char g)
     }
 }
 
+void picture::mozaik(int size)
+{
+    int i = 0, j = 0, k = 0;
+    pixel nPix;
+    
+    nPix.red = 0; 
+    nPix.blue = 0; 
+    nPix.green = 0;
+    for (i = 0; i < infoHeader.img_Width * infoHeader.img_Height; i++)
+    {
+        nPix.red += pixelTab[i].red; 
+        nPix.blue = pixelTab[i].blue; 
+        nPix.green += pixelTab[i].green; 
+        j++;
+        if (j == size)
+        {
+            nPix.red = nPix.red / size;
+            nPix.blue = nPix.blue / size;
+            nPix.green = nPix.green / size;
+            std::cout << i << std::endl;
+            for (k = i - size; k <= i; k++)
+            {
+                pixelTab[k].red = nPix.red;
+                pixelTab[k].blue = nPix.blue;
+                pixelTab[k].green = nPix.green;
+            }
+            j = 0;
+            nPix.red = 0; 
+            nPix.blue = 0; 
+            nPix.green = 0;
+        }
+        
+    }
+}
+
 int main()
 {
     picture Lena("lenaColor.bmp", "lenaOut.bmp");
     Lena.addBorder(30, 0xff, 90, 90);
+    Lena.mozaik(4);
     Lena.write();
     return 0;
 }

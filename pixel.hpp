@@ -41,6 +41,7 @@ public:
   vector<pixel> pixelTab;
 	picture(const char* filename, const char* filenameOut);
   void addBorder(int size = 0, char r = 0, char b = 0, char g = 0);
+  void mozaik(int size);
 	void write(void);
 };
 
