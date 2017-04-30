@@ -49,7 +49,8 @@ void picture::write(void)
             file.write((char *) (&pixelTab[i]), sizeof(pixel));
         }
     }
-    std::cout << file.is_open() << std::endl;
+    std::cout << "Height: " << infoHeader.img_Height << std::endl;
+    std::cout << "Width: " << infoHeader.img_Width << std::endl;
     file.close();
 }
 
@@ -88,14 +89,14 @@ void picture::mozaik(int size)
     int count = 0;
     for (i = 0; i < infoHeader.img_Height; i += size)
     {
-       for(j = 0; j < infoHeader.img_Width; j += size)
+      for(j = 0; j < infoHeader.img_Width; j += size)
         {
           for(y = 0; y < size; y++)
           {
             for(x = 0; x < size; x++)
             {
-              int index = (i*infoHeader.img_Height)+(j + x)+(y * infoHeader.img_Width);
-              if (index < infoHeader.img_Width * infoHeader.img_Height)
+              int index = (i*infoHeader.img_Width)+(j + x)+(y * infoHeader.img_Width);
+              if (index < infoHeader.img_Width * infoHeader.img_Height && (j + x) < infoHeader.img_Width)
               {
               red += pixelTab[index].red;
               blue += pixelTab[index].blue;
@@ -116,7 +117,7 @@ void picture::mozaik(int size)
             for(x = 0; x < size; x++)
             {
               int index = (i*infoHeader.img_Width)+(j + x)+(y * infoHeader.img_Width);
-              if (index < infoHeader.img_Width * infoHeader.img_Height)
+              if (index < infoHeader.img_Width * infoHeader.img_Height && (j+x) < infoHeader.img_Width)
               {
               pixelTab[index].red = red;
               pixelTab[index].blue = blue;
@@ -135,7 +136,7 @@ void picture::mozaik(int size)
 
 int main()
 {
-    picture Lena("lenaColor.bmp", "lenaOut.bmp");
+    picture Lena("test.bmp", "lenaOut.bmp");
 //    Lena.addBorder(30, 0xff, 90, 90);
     cout << "Mozaik: ";
     int size;
